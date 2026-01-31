@@ -47,3 +47,35 @@ exports.vehiclesAdd = (req, res) => {
       res.status(500).json({ error: "Internal server error" });
     });
 };
+
+exports.vehiclesDelete = (req, res) => {
+  const { id_vehicle } = req.body;
+
+  if (!id_vehicle) {
+    return Response.json(
+      { error: "Este campo es obligatorio" },
+      { status: 400 },
+    );
+  }
+
+  if (isNaN(Number(id_vehicle))) {
+    return Response.json({ error: "El ID debe ser numérico" }, { status: 400 });
+  }
+
+  VehiclesModel.vehiclesDelete(id_vehicle)
+    .then((result) => {
+      if (result === null) {
+        return res.status(401).json({
+          isDelete: null,
+        });
+      }
+
+      res.status(200).json({
+        isDelete: result,
+      });
+    })
+    .catch((err) => {
+      console.error("Error deleting vehicle:", err);
+      res.status(500).json({ error: "Internal server error" });
+    });
+};

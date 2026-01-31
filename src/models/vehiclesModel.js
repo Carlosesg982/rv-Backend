@@ -57,6 +57,29 @@ const VehiclesModel = {
       );
     });
   },
+  vehiclesDelete: (id_vehicle) => {
+    return new Promise((resolve, reject) => {
+      db.query("CALL sp_vehicle_delete(?)", [id_vehicle], (err, results) => {
+        if (err) {
+          return reject(err);
+        }
+
+        const rows = results && results[0];
+
+        if (!rows || rows.length === 0) {
+          return resolve(null);
+        }
+
+        const deletedInfo = {
+          id: rows[0].id,
+          deleted: true,
+          deletedAt: new Date().toISOString(),
+        };
+
+        resolve(deletedInfo);
+      });
+    });
+  },
 };
 
 module.exports = VehiclesModel;
