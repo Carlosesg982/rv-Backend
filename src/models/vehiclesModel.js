@@ -11,7 +11,7 @@ const VehiclesModel = {
         const rows = results && results[0];
 
         if (!rows || !Array.isArray(rows) || rows.length === 0) {
-          return resolve([]);
+          return resolve(null);
         }
 
         const vehicles = rows.map((row) => ({

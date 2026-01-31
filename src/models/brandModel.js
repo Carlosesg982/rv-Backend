@@ -11,12 +11,12 @@ const BrandModel = {
         const rows = results && results[0];
 
         if (!rows || !Array.isArray(rows) || rows.length === 0) {
-          return resolve([]);
+          return resolve(null);
         }
 
         const brand = rows.map((row) => ({
           id: row.id,
-          title: row.title,
+          name: row.title,
         }));
 
         resolve(brand);
