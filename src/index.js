@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const vehicles = require("./routes/vehicles.routes");
+const vehicles = require("./Routes/vehicles.routes");
 const brand = require("./Routes/brand.routes");
 const model = require("./Routes/model.routes");
 

@@ -20,11 +20,41 @@ const VehiclesModel = {
           brand: row.brand_name,
           model: row.model_name,
           created_at: row.created_at,
-          update_at: row.updated_at,
+          updated_at: row.updated_at,
         }));
 
         resolve(vehicles);
       });
+    });
+  },
+  vehiclesAdd: (id_brand, id_model, plate) => {
+    return new Promise((resolve, reject) => {
+      db.query(
+        "CALL sp_vehicles_add(?, ?, ?)",
+        [id_brand, id_model, plate],
+        (err, results) => {
+          if (err) {
+            return reject(err);
+          }
+
+          const rows = results && results[0];
+
+          if (!rows || !Array.isArray(rows) || rows.length === 0) {
+            return resolve(null);
+          }
+
+          const vehicle = rows.map((row) => ({
+            id: row.id,
+            plate: row.Plate,
+            brand: row.brand_name,
+            model: row.model_name,
+            created_at: row.created_at,
+            updated_at: row.updated_at,
+          }));
+
+          resolve(vehicle);
+        },
+      );
     });
   },
 };
