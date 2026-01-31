@@ -49,7 +49,7 @@ exports.vehiclesAdd = (req, res) => {
 };
 
 exports.vehiclesDelete = (req, res) => {
-  const { id_vehicle } = req.body;
+  const { id_vehicle } = req.params;
 
   if (!id_vehicle) {
     return Response.json(
