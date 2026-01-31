@@ -30,7 +30,7 @@ const VehiclesModel = {
   vehiclesAdd: (id_brand, id_model, plate) => {
     return new Promise((resolve, reject) => {
       db.query(
-        "CALL sp_vehicles_add(?, ?, ?)",
+        "CALL sp_vehicle_add(?, ?, ?)",
         [id_brand, id_model, plate],
         (err, results) => {
           if (err) {

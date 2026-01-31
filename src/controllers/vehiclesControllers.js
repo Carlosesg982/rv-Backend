@@ -3,11 +3,6 @@ const VehiclesModel = require("../models/vehiclesModel");
 exports.vehiclesList = (req, res) => {
   VehiclesModel.vehiclesList()
     .then((result) => {
-      if (result === null) {
-        return res.status(401).json({
-          vehiclesList: null,
-        });
-      }
       res.status(200).json({
         vehiclesList: result,
       });
