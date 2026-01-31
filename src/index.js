@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const vehicles = require("./routes/vehicles.routes");
+const brand = require("./Routes/brand.routes");
 
 const app = express();
 const PORT = 4000;
@@ -17,7 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", vehicles);
-
+app.use("/api", brand);
 app.get("/", (req, res) => {
   res.send("¡Hola mundo con Express!");
 });
