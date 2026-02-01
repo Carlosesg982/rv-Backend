@@ -3,6 +3,7 @@ const cors = require("cors");
 const vehicles = require("./Routes/vehicles.routes");
 const brand = require("./Routes/brand.routes");
 const model = require("./Routes/model.routes");
+const movement = require("./Routes/movement.routes");
 
 const app = express();
 const PORT = 4000;
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api", vehicles);
 app.use("/api", brand);
 app.use("/api", model);
+app.use("/api", movement);
 app.get("/", (req, res) => {
   res.send("¡Hola mundo con Express!");
 });
