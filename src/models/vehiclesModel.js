@@ -80,11 +80,11 @@ const VehiclesModel = {
       });
     });
   },
-  vehiclesUpdate: (id, id_brand, id_model, plate) => {
+  vehiclesUpdate: (id_vehicle, id_brand, id_model, plate) => {
     return new Promise((resolve, reject) => {
       db.query(
         "CALL sp_vehicle_update(?, ?, ?, ?)",
-        [id, id_brand, id_model, plate],
+        [id_vehicle, id_brand, id_model, plate],
         (err, results) => {
           if (err) {
             return reject(err);

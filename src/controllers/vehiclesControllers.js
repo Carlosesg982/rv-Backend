@@ -81,23 +81,28 @@ exports.vehiclesDelete = (req, res) => {
 };
 
 exports.vehiclesUpdate = (req, res) => {
-  const { id, id_brand, id_model, plate } = req.body;
+  const { id_vehicle } = req.params;
+  const { id_brand, id_model, plate } = req.body;
 
-  if (!id || !id_brand || !id_model || !plate) {
+  if (!id_vehicle || !id_brand || !id_model || !plate) {
     return Response.json(
       { error: "Todos los campos son obligatorios" },
       { status: 400 },
     );
   }
 
-  if (isNaN(Number(id)) || isNaN(Number(id_brand)) || isNaN(Number(id_model))) {
+  if (
+    isNaN(Number(id_vehicle)) ||
+    isNaN(Number(id_brand)) ||
+    isNaN(Number(id_model))
+  ) {
     return Response.json(
       { error: "Los IDs deben ser numéricos" },
       { status: 400 },
     );
   }
 
-  VehiclesModel.vehiclesUpdate(id, id_brand, id_model, plate)
+  VehiclesModel.vehiclesUpdate(id_vehicle, id_brand, id_model, plate)
     .then((result) => {
       if (result === null) {
         return res.status(401).json({
