@@ -8,10 +8,10 @@ const BrandModel = {
           return reject(err);
         }
 
-        const rows = results && results[0];
+        const rows = results[0];
 
-        if (!rows || !Array.isArray(rows) || rows.length === 0) {
-          return resolve(null);
+        if (!rows || !Array.isArray(rows)) {
+          return resolve([]);
         }
 
         const brand = rows.map((row) => ({
