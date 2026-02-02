@@ -34,3 +34,21 @@ exports.movementAdd = (req, res) => {
       res.status(500).json({ error: "Internal server error" });
     });
 };
+
+exports.movementList = (req, res) => {
+  MovementModel.movementList()
+    .then((result) => {
+      if (result === null) {
+        return res.status(401).json({
+          movements: null,
+        });
+      }
+      res.status(200).json({
+        movements: result,
+      });
+    })
+    .catch((err) => {
+      console.error("Error listing movements:", err);
+      res.status(500).json({ error: "Internal server error" });
+    });
+};
