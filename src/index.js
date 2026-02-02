@@ -10,9 +10,10 @@ const PORT = process.env.PORT || 4000;
 
 const corsOptions = {
   origin: process.env.URL_FRONTEND || "http://localhost:3000",
-  credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+  optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
