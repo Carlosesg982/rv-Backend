@@ -6,7 +6,7 @@ const model = require("./Routes/model.routes");
 const movement = require("./Routes/movement.routes");
 
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 const corsOptions = {
   origin: "http://localhost:3000",
