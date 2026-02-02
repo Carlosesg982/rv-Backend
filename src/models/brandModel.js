@@ -19,7 +19,7 @@ const BrandModel = {
           name: row.title,
         }));
 
-        resolve(brand);
+        resolve(JSON.parse(JSON.stringify(brand)));
       });
     });
   },
