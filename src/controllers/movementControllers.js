@@ -36,7 +36,9 @@ exports.movementAdd = (req, res) => {
 };
 
 exports.movementList = (req, res) => {
-  MovementModel.movementList()
+  const { p_motorcyclist } = req.body;
+
+  MovementModel.movementList(p_motorcyclist)
     .then((result) => {
       if (result === null) {
         return res.status(401).json({
