@@ -31,11 +31,14 @@ const MovementModel = {
       );
     });
   },
-  movementList: (p_motorcyclist) => {
+  movementList: (motorcyclist, id_vehicles, created_at) => {
     return new Promise((resolve, reject) => {
+      const fechaParaMySQL = created_at
+        ? new Date(created_at).toISOString().slice(0, 19).replace("T", " ")
+        : null;
       db.query(
-        "CALL sp_register_movement_list(?)",
-        [p_motorcyclist],
+        "CALL sp_register_movement_list(?, ?, ?)",
+        [motorcyclist, id_vehicles, fechaParaMySQL],
         (err, results) => {
           if (err) {
             return reject(err);

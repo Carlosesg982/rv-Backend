@@ -36,9 +36,16 @@ exports.movementAdd = (req, res) => {
 };
 
 exports.movementList = (req, res) => {
-  const { p_motorcyclist } = req.body;
+  const { motorcyclist, id_vehicles, created_at } = req.body;
 
-  MovementModel.movementList(p_motorcyclist)
+  if (isNaN(Number(id_vehicles))) {
+    return Response.json(
+      { error: "Los IDs debe ser numérico" },
+      { status: 400 },
+    );
+  }
+
+  MovementModel.movementList(motorcyclist, id_vehicles, created_at)
     .then((result) => {
       if (result === null) {
         return res.status(401).json({
