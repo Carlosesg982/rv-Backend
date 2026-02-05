@@ -1,27 +1,23 @@
-const db = require("../services/dbConnection");
+const pool = require("../config/database");
 
 const ModelModel = {
-  modelList: () => {
-    return new Promise((resolve, reject) => {
-      db.query("CALL sp_model_list()", (err, results) => {
-        if (err) {
-          return reject(err);
-        }
+  modelList: async () => {
+    try {
+      const [results] = await pool.query("CALL sp_model_list()");
 
-        const rows = results && results[0];
+      const rows = results && results[0];
 
-        if (!rows || !Array.isArray(rows) || rows.length === 0) {
-          return resolve(null);
-        }
+      if (!rows || !Array.isArray(rows) || rows.length === 0) {
+        return null;
+      }
 
-        const model = rows.map((row) => ({
-          id: row.id,
-          name: row.title,
-        }));
-
-        resolve(model);
-      });
-    });
+      return rows.map((row) => ({
+        id: row.id,
+        name: row.title,
+      }));
+    } catch (error) {
+      throw error;
+    }
   },
 };
 

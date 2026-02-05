@@ -1,27 +1,23 @@
-const db = require("../services/dbConnection");
+const pool = require("../config/database");
 
 const BrandModel = {
-  brandList: () => {
-    return new Promise((resolve, reject) => {
-      db.query("CALL sp_brand_list()", (err, results) => {
-        if (err) {
-          return reject(err);
-        }
+  brandList: async () => {
+    try {
+      const [results] = await pool.query("CALL sp_brand_list()");
 
-        const rows = results[0];
+      const rows = results[0];
 
-        if (!rows || !Array.isArray(rows)) {
-          return resolve([]);
-        }
+      if (!rows || !Array.isArray(rows)) {
+        return [];
+      }
 
-        const brand = rows.map((row) => ({
-          id: row.id,
-          name: row.title,
-        }));
-
-        resolve(brand);
-      });
-    });
+      return rows.map((row) => ({
+        id: row.id,
+        name: row.title,
+      }));
+    } catch (error) {
+      throw error;
+    }
   },
 };
 

@@ -1,19 +1,18 @@
 const VehiclesModel = require("../models/vehiclesModel");
 
-exports.vehiclesList = (req, res) => {
-  VehiclesModel.vehiclesList()
-    .then((result) => {
-      res.status(200).json({
-        vehiclesList: result,
-      });
-    })
-    .catch((err) => {
-      console.error("Error getting vehicle list:", err);
-      res.status(500).json({ error: "Internal server error" });
+exports.vehiclesList = async (req, res) => {
+  try {
+    const result = await VehiclesModel.vehiclesList();
+    res.status(200).json({
+      vehiclesList: result,
     });
+  } catch (err) {
+    console.error("Error getting vehicle list:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
-exports.vehiclesAdd = (req, res) => {
+exports.vehiclesAdd = async (req, res) => {
   const { id_brand, id_model, plate } = req.body;
 
   if (!id_brand || !id_model || !plate) {
@@ -30,25 +29,24 @@ exports.vehiclesAdd = (req, res) => {
     );
   }
 
-  VehiclesModel.vehiclesAdd(id_brand, id_model, plate)
-    .then((result) => {
-      if (result === null) {
-        return res.status(401).json({
-          vehicle: null,
-        });
-      }
-
-      res.status(200).json({
-        vehicle: result,
+  try {
+    const result = await VehiclesModel.vehiclesAdd(id_brand, id_model, plate);
+    if (result === null) {
+      return res.status(401).json({
+        vehicle: null,
       });
-    })
-    .catch((err) => {
-      console.error("Error adding vehicle:", err);
-      res.status(500).json({ error: "Internal server error" });
+    }
+
+    res.status(200).json({
+      vehicle: result,
     });
+  } catch (err) {
+    console.error("Error adding vehicle:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
-exports.vehiclesDelete = (req, res) => {
+exports.vehiclesDelete = async (req, res) => {
   const { id_vehicle } = req.params;
 
   if (!id_vehicle) {
@@ -62,25 +60,24 @@ exports.vehiclesDelete = (req, res) => {
     return Response.json({ error: "El ID debe ser numérico" }, { status: 400 });
   }
 
-  VehiclesModel.vehiclesDelete(id_vehicle)
-    .then((result) => {
-      if (result === null) {
-        return res.status(401).json({
-          isDelete: null,
-        });
-      }
-
-      res.status(200).json({
-        isDelete: result,
+  try {
+    const result = await VehiclesModel.vehiclesDelete(id_vehicle);
+    if (result === null) {
+      return res.status(401).json({
+        isDelete: null,
       });
-    })
-    .catch((err) => {
-      console.error("Error deleting vehicle:", err);
-      res.status(500).json({ error: "Internal server error" });
+    }
+
+    res.status(200).json({
+      isDelete: result,
     });
+  } catch (err) {
+    console.error("Error deleting vehicle:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
-exports.vehiclesUpdate = (req, res) => {
+exports.vehiclesUpdate = async (req, res) => {
   const { id_vehicle } = req.params;
   const { id_brand, id_model, plate } = req.body;
 
@@ -102,20 +99,24 @@ exports.vehiclesUpdate = (req, res) => {
     );
   }
 
-  VehiclesModel.vehiclesUpdate(id_vehicle, id_brand, id_model, plate)
-    .then((result) => {
-      if (result === null) {
-        return res.status(401).json({
-          vehicle: null,
-        });
-      }
-
-      res.status(200).json({
-        vehicle: result,
+  try {
+    const result = await VehiclesModel.vehiclesUpdate(
+      id_vehicle,
+      id_brand,
+      id_model,
+      plate,
+    );
+    if (result === null) {
+      return res.status(401).json({
+        vehicle: null,
       });
-    })
-    .catch((err) => {
-      console.error("Error updating vehicle:", err);
-      res.status(500).json({ error: "Internal server error" });
+    }
+
+    res.status(200).json({
+      vehicle: result,
     });
+  } catch (err) {
+    console.error("Error updating vehicle:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };

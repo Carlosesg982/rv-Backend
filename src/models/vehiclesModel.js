@@ -1,114 +1,101 @@
-const db = require("../services/dbConnection");
+const pool = require("../config/database");
 
 const VehiclesModel = {
-  vehiclesList: () => {
-    return new Promise((resolve, reject) => {
-      db.query("CALL sp_vehicles_list()", (err, results) => {
-        if (err) {
-          return reject(err);
-        }
+  vehiclesList: async () => {
+    try {
+      const [results] = await pool.query("CALL sp_vehicles_list()");
 
-        const rows = results && results[0];
+      const rows = results && results[0];
 
-        if (!rows || !Array.isArray(rows) || rows.length === 0) {
-          return resolve(null);
-        }
+      if (!rows || !Array.isArray(rows) || rows.length === 0) {
+        return null;
+      }
 
-        const vehicles = rows.map((row) => ({
-          id: row.id,
-          plate: row.Plate,
-          brand: row.brand_name,
-          model: row.model_name,
-          created_at: row.created_at,
-          updated_at: row.updated_at,
-        }));
-
-        resolve(vehicles);
-      });
-    });
+      return rows.map((row) => ({
+        id: row.id,
+        plate: row.Plate,
+        brand: row.brand_name,
+        model: row.model_name,
+        created_at: row.created_at,
+        updated_at: row.updated_at,
+      }));
+    } catch (error) {
+      throw error;
+    }
   },
-  vehiclesAdd: (id_brand, id_model, plate) => {
-    return new Promise((resolve, reject) => {
-      db.query(
-        "CALL sp_vehicle_add(?, ?, ?)",
-        [id_brand, id_model, plate],
-        (err, results) => {
-          if (err) {
-            return reject(err);
-          }
+  vehiclesAdd: async (id_brand, id_model, plate) => {
+    try {
+      const [results] = await pool.query("CALL sp_vehicle_add(?, ?, ?)", [
+        id_brand,
+        id_model,
+        plate,
+      ]);
 
-          const rows = results && results[0];
+      const rows = results && results[0];
 
-          if (!rows || !Array.isArray(rows) || rows.length === 0) {
-            return resolve(null);
-          }
+      if (!rows || !Array.isArray(rows) || rows.length === 0) {
+        return null;
+      }
 
-          const vehicle = rows.map((row) => ({
-            id: row.id,
-            plate: row.Plate,
-            brand: row.brand_name,
-            model: row.model_name,
-            created_at: row.created_at,
-            updated_at: row.updated_at,
-          }));
-
-          resolve(vehicle);
-        },
-      );
-    });
+      return rows.map((row) => ({
+        id: row.id,
+        plate: row.Plate,
+        brand: row.brand_name,
+        model: row.model_name,
+        created_at: row.created_at,
+        updated_at: row.updated_at,
+      }));
+    } catch (error) {
+      throw error;
+    }
   },
-  vehiclesDelete: (id_vehicle) => {
-    return new Promise((resolve, reject) => {
-      db.query("CALL sp_vehicle_delete(?)", [id_vehicle], (err, results) => {
-        if (err) {
-          return reject(err);
-        }
+  vehiclesDelete: async (id_vehicle) => {
+    try {
+      const [results] = await pool.query("CALL sp_vehicle_delete(?)", [
+        id_vehicle,
+      ]);
 
-        const rows = results && results[0];
+      const rows = results && results[0];
 
-        if (!rows || rows.length === 0) {
-          return resolve(null);
-        }
+      if (!rows || rows.length === 0) {
+        return null;
+      }
 
-        const deletedInfo = {
-          id: rows[0].id,
-          deleted: true,
-          deletedAt: new Date().toISOString(),
-        };
-
-        resolve(deletedInfo);
-      });
-    });
+      return {
+        id: rows[0].id,
+        deleted: true,
+        deletedAt: new Date().toISOString(),
+      };
+    } catch (error) {
+      throw error;
+    }
   },
-  vehiclesUpdate: (id_vehicle, id_brand, id_model, plate) => {
-    return new Promise((resolve, reject) => {
-      db.query(
-        "CALL sp_vehicle_update(?, ?, ?, ?)",
-        [id_vehicle, id_brand, id_model, plate],
-        (err, results) => {
-          if (err) {
-            return reject(err);
-          }
+  vehiclesUpdate: async (id_vehicle, id_brand, id_model, plate) => {
+    try {
+      const [results] = await pool.query("CALL sp_vehicle_update(?, ?, ?, ?)", [
+        id_vehicle,
+        id_brand,
+        id_model,
+        plate,
+      ]);
 
-          const rows = results && results[0];
+      const rows = results && results[0];
 
-          if (!rows || !Array.isArray(rows) || rows.length === 0) {
-            return resolve(null);
-          }
+      if (!rows || !Array.isArray(rows) || rows.length === 0) {
+        return null;
+      }
 
-          const vehicle = rows.map((row) => ({
-            id: row.id,
-            plate: row.Plate,
-            brand: row.brand_name,
-            model: row.model_name,
-            created_at: row.created_at,
-            updated_at: row.updated_at,
-          }));
-
-          resolve(vehicle);
-        },
-      );
-    });
+      return rows.map((row) => ({
+        id: row.id,
+        plate: row.Plate,
+        brand: row.brand_name,
+        model: row.model_name,
+        created_at: row.created_at,
+        updated_at: row.updated_at,
+      }));
+    } catch (error) {
+      throw error;
+    }
   },
 };
 
