@@ -1,7 +1,5 @@
 const mysql = require("mysql2/promise");
 
-// Creamos un Pool en lugar de una conexión única
-// Las variables de entorno ya fueron cargadas en index.js
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,

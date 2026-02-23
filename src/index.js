@@ -24,6 +24,7 @@ app.use("/api", vehicles);
 app.use("/api", brand);
 app.use("/api", model);
 app.use("/api", movement);
+
 app.get("/", (req, res) => {
   res.send("¡Hola mundo con Express!");
 });
